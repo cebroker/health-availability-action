@@ -61,6 +61,7 @@ const run = async () => {
 
     //Check
     core.setOutput('summary', JSON.stringify(summaryInstancesChecked));
+    core.notice('summary', JSON.stringify(summaryInstancesChecked));
     if (percentageByStatus['pass'] < +availability_percentage) {
       core.warning(`App Information: ${JSON.stringify(percentageByStatus)}`);
       return core.setFailed(`
