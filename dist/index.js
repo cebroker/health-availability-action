@@ -75,6 +75,7 @@ const run = async () => {
   }
 };
 
+run();
 module.exports.run = run;
 
 
