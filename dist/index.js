@@ -61,15 +61,15 @@ const run = async () => {
 
     //send
     core.notice(JSON.stringify(summaryInstancesChecked));
-    core.setOutput('summary', JSON.stringify(summaryInstancesChecked));
+    core.setOutput('summary', JSON.stringify({ summaryInstancesChecked, percentageByStatus }));
 
     //Check
     if (percentageByStatus['pass'] < +availability_percentage) {
       core.warning(`Percentage by Status: ${JSON.stringify(percentageByStatus)}`);
-      return core.setFailed(`
-        health-001: Service availability less than client availability provided.
-        Current Availability: ${percentageByStatus['pass']}\nExpected Availbility: ${availability_percentage}
-    	`);
+      let failedMessage = 'health-001: Service availability less than client availability provided.\n';
+      failedMessage += `Current Availability: ${percentageByStatus['pass']}\n`;
+      failedMessage += `Expected Availbility: ${availability_percentage}`;
+      return core.setFailed(failedMessage);
     }
   } catch (error) {
     core.error(error);
