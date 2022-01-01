@@ -31,7 +31,7 @@ const run = async () => {
       return core.setFailed('Inventory apps did not return any value for your provided url');
     }
 
-    let { result: instancesResult } = inventoryResult;
+    let { result: instancesResult } = inventoryResult.data;
     instancesResult = instancesResult.filter(({ health }) => !health);
     const numberOfInstances = instancesResult.length;
     const summaryInstancesChecked = instancesResult.map((instanceObj) => {
