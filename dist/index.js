@@ -32,7 +32,7 @@ const run = async () => {
     }
 
     let { result: instancesResult } = inventoryResult.data;
-    instancesResult = instancesResult.filter(({ health }) => !health);
+    instancesResult = instancesResult.filter(({ health }) => health);
     const numberOfInstances = instancesResult.length;
     const summaryInstancesChecked = instancesResult.map((instanceObj) => {
       return {
