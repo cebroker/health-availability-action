@@ -71,7 +71,8 @@ const run = async () => {
     	`);
     }
   } catch (error) {
-    return core.setFailed(error);
+    core.error(error);
+    return core.setFailed(error.message);
   }
 };
 
