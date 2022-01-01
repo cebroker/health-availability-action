@@ -54,7 +54,7 @@ const run = async () => {
     });
 
     //send
-    core.notice(JSON.stringify(summaryInstancesChecked));
+    core.notice(JSON.stringify({ summaryInstancesChecked, percentageByStatus }));
     core.setOutput('summary', JSON.stringify({ summaryInstancesChecked, percentageByStatus }));
 
     //Check
