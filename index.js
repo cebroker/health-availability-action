@@ -6,7 +6,7 @@ const run = async () => {
   const apps_inventory_auth = core.getInput('apps_inventory_auth');
   const availability_percentage = core.getInput('availability_percentage');
 
-  if (Number.isNaN(availability_percentage)) {
+  if (!Number.isInteger(availability_percentage) || +availability_percentage > 100) {
     return core.setFailed("No Valid number provided for 'availability_percentage'");
   }
 
@@ -71,5 +71,8 @@ const run = async () => {
   }
 };
 
-run();
+if (!process.env.IS_UNIT_TEST) {
+  run();
+}
+
 module.exports.run = run;
