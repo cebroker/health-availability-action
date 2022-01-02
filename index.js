@@ -27,6 +27,11 @@ const run = async () => {
 
     let { result: instancesResult } = inventoryResult.data;
     instancesResult = instancesResult.filter(({ health }) => health);
+
+    if (!instancesResult.length) {
+      return core.setFailed('Inventory apps did find any valid instance for your service');
+    }
+
     const numberOfInstances = instancesResult.length;
     const summaryInstancesChecked = instancesResult.map((instanceObj) => {
       return {

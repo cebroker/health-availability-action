@@ -16,6 +16,12 @@ jest.mock('axios', () => ({
   get: jest.fn().mockReturnThis(),
 }));
 
+const mockNoInstances = [
+  {
+    instance: 'base',
+  },
+];
+
 const mock75Availability = [
   {
     instance: 'base',
@@ -122,6 +128,14 @@ describe('When availability is less than the client asked for (expected 80, real
 });
 
 describe('When a unexpected error happens', () => {
+  afterEach(() => {
+    core.getInput.mockReset();
+    core.setFailed.mockReset();
+    axios.get.mockReset();
+    core.error.mockReset();
+    core.notice.mockReset();
+    core.warning.mockReset();
+  });
   it('it should call to core.error and set failed', async () => {
     core.getInput.mockReturnValueOnce(vaildURL);
     core.getInput.mockReturnValueOnce(validAuth);
@@ -137,5 +151,24 @@ describe('When a unexpected error happens', () => {
     expect(core.warning).toHaveBeenCalledTimes(0);
     expect(core.error).toHaveBeenCalledWith(error);
     expect(core.setFailed).toHaveBeenNthCalledWith(1, error.message);
+  });
+});
+
+describe('When only base instance is returned by Apps Inventory', () => {
+  afterEach(() => {
+    core.getInput.mockReset();
+    core.setFailed.mockReset();
+    axios.get.mockReset();
+    core.error.mockReset();
+    core.notice.mockReset();
+    core.warning.mockReset();
+  });
+  it('it must ...', async () => {
+    core.getInput.mockReturnValueOnce(vaildURL).mockReturnValueOnce(validAuth).mockReturnValueOnce(80);
+    axios.get.mockReturnValue({ data: { result: mockNoInstances } });
+
+    await action.run();
+    expect(axios.get).toHaveBeenCalledTimes(1);
+    expect(core.setFailed).toHaveBeenCalledWith('Inventory apps did find any valid instance for your service');
   });
 });
