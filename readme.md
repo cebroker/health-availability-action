@@ -1,9 +1,20 @@
-# Usage 
+## Ussage
 
-```
-action: flavioaandres/health-monitor-action@v1
+To use this library, just add a new step into your workflow as follow: 
+
+```yaml
+      - name: Checking Service Availability
+        uses: condorlabs-actions/health-availability
+        with:
+          apps_inventory_url: 'https://your-health-api.com/app/service_name?sections=health?secondsAgo=60'
+          apps_inventory_auth: 'zeD3qUwspYmzPyUcE7fKE8jT2qUgCrWd'
+          availability_percentage: 80
+      - run: echo ${{ steps.foo.outputs.summary }}
+      - name: Send secrets to k8s
+        run: kubectl apply -f output.yaml
 ```
 
+### Params
 ```yaml
   apps_inventory_url:
     required: true
@@ -13,5 +24,20 @@ action: flavioaandres/health-monitor-action@v1
     required: true
   availability_percentage: 
     required: true
-    description: 'number of the % of your healthy machines. If its less than provided'
+    description: 'Percentage of your healthy machines. If its less than provided the action will exit with status code 1'
 ```
+
+
+## Contributors
+
+The original author and current lead maintainer of this module is the [@condor-labs development team](https://condorlabs.io/team).
+
+Join to our team. 
+
+**Join to our Team [Here](https://condorlabs.io/hiring).**
+
+**More about Condorlabs [Here](https://condorlabs.io/about).**
+
+## License
+
+[MIT](LICENSE)
