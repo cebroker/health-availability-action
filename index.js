@@ -5,7 +5,7 @@ const run = async () => {
   const apps_inventory_url = core.getInput('apps_inventory_url');
   const apps_inventory_auth = core.getInput('apps_inventory_auth');
   const availability_percentage = core.getInput('availability_percentage');
-  const allow_warn_as_passed = core.getInput('allow_warn_as_passed') || true;
+  const allow_warn_as_passed = core.getInput('allow_warn_as_passed');
 
   if (!Number.isInteger(availability_percentage) || +availability_percentage > 100) {
     return core.setFailed("No Valid number provided for 'availability_percentage'");
@@ -50,9 +50,6 @@ const run = async () => {
     };
 
     instancesResult.forEach(({ health }) => {
-      if (allow_warn_as_passed && health.status === 'warn') {
-        health.status = 'pass';
-      }
       countsByStatus[health.status] = countsByStatus[health.status] + 1;
     });
 
@@ -67,6 +64,9 @@ const run = async () => {
     core.setOutput('summary', JSON.stringify({ summaryInstancesChecked, percentageByStatus }));
 
     //Check
+    if (allow_warn_as_passed) {
+      percentageByStatus['pass'] += percentageByStatus['warn'] || 0;
+    }
     if (percentageByStatus['pass'] < +availability_percentage) {
       core.warning(`Percentage by Status: ${JSON.stringify(percentageByStatus)}`);
       let failedMessage = 'health-001: Service availability less than client availability provided.\n';
