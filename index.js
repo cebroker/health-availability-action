@@ -5,7 +5,7 @@ const run = async () => {
   const apps_inventory_url = core.getInput('apps_inventory_url');
   const apps_inventory_auth = core.getInput('apps_inventory_auth');
   const availability_percentage = core.getInput('availability_percentage');
-  const allow_warn_as_passed = core.getInput('allow_warn_as_passed');
+  const allow_warn_as_passed = core.getInput('allow_warn_as_passed') || true;
 
   if (!Number.isInteger(availability_percentage) || +availability_percentage > 100) {
     return core.setFailed("No Valid number provided for 'availability_percentage'");
