@@ -15,6 +15,7 @@ inputs:
     description: 'number of the % of your healthy machines. If its less than provided'
   allow_warn_as_passed: 
     required: false
+    default: "true"
     description: 'set false if you only want to count pass status as availability'
 
 outputs:
