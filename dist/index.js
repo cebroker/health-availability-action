@@ -71,7 +71,6 @@ const run = async () => {
     //Check
     let totalHealth = percentageByStatus['pass'];
     if (allow_warn_as_passed) {
-      core.info('parsing warning as info...');
       totalHealth += percentageByStatus['warn'];
     }
     if (totalHealth < +availability_percentage) {
