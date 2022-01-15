@@ -14,7 +14,7 @@ const run = async () => {
   const allow_warn_as_passed = core.getBooleanInput('allow_warn_as_passed');
 
   if (!Number.isInteger(availability_percentage) || +availability_percentage > 100) {
-    return core.setFailed("No Valid number provided for 'availability_percentage'");
+    return core.setFailed(`No Valid number provided for 'availability_percentage': ${availability_percentage}`);
   }
 
   try {
