@@ -64,13 +64,15 @@ const run = async () => {
     core.setOutput('summary', JSON.stringify({ summaryInstancesChecked, percentageByStatus }));
 
     //Check
+    let totalHealth = percentageByStatus['pass'];
     if (allow_warn_as_passed) {
-      percentageByStatus['pass'] += percentageByStatus['warn'] || 0;
+      core.info('parsing warning as info...');
+      totalHealth += percentageByStatus['warn'];
     }
-    if (percentageByStatus['pass'] < +availability_percentage) {
+    if (totalHealth < +availability_percentage) {
       core.warning(`Percentage by Status: ${JSON.stringify(percentageByStatus)}`);
       let failedMessage = 'health-001: Service availability less than client availability provided.\n';
-      failedMessage += `Current Availability: ${percentageByStatus['pass']}\n`;
+      failedMessage += `Current Availability: ${totalHealth}\n`;
       failedMessage += `Expected Availbility: ${availability_percentage}`;
       return core.setFailed(failedMessage);
     }
