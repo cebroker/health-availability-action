@@ -11,6 +11,7 @@ jest.mock('@actions/core', () => ({
   error: jest.fn(),
   warning: jest.fn(),
   getBooleanInput: jest.fn(),
+  info: jest.fn(),
 }));
 
 jest.mock('axios', () => ({
@@ -62,7 +63,7 @@ describe('When the input is invalid', () => {
     expect(core.getInput).toHaveBeenNthCalledWith(2, 'apps_inventory_auth');
     expect(core.getInput).toHaveBeenNthCalledWith(3, 'availability_percentage');
     expect(core.setFailed).toHaveBeenCalledTimes(1);
-    expect(core.setFailed).toHaveBeenCalledWith(`No Valid number provided for 'availability_percentage'`);
+    expect(core.setFailed).toHaveBeenCalledWith(`No Valid number provided for 'availability_percentage': abc`);
   });
 
   it('Should call to core.setFailed to finish the execution when availability is greater than 100', async () => {
@@ -74,7 +75,7 @@ describe('When the input is invalid', () => {
     expect(core.getInput).toHaveBeenNthCalledWith(2, 'apps_inventory_auth');
     expect(core.getInput).toHaveBeenNthCalledWith(3, 'availability_percentage');
     expect(core.setFailed).toHaveBeenCalledTimes(1);
-    expect(core.setFailed).toHaveBeenCalledWith(`No Valid number provided for 'availability_percentage'`);
+    expect(core.setFailed).toHaveBeenCalledWith(`No Valid number provided for 'availability_percentage': 200`);
   });
 });
 
@@ -144,7 +145,7 @@ describe('When availability passes if allow_warn_as_passed is true (expected 80,
     core.getInput
       .mockReturnValueOnce(vaildURL)
       .mockReturnValueOnce(validAuth)
-      .mockReturnValueOnce(80)
+      .mockReturnValueOnce('80')
       .mockReturnValueOnce(true);
     core.getBooleanInput.mockReturnValue(true);
     axios.get.mockReturnValue({ data: { result: mock75Availability } });
@@ -153,6 +154,7 @@ describe('When availability passes if allow_warn_as_passed is true (expected 80,
 
     expect(core.setOutput).toHaveBeenCalledTimes(1);
     expect(core.getInput).toHaveBeenCalledTimes(3);
+    console.log(core.setFailed.mock.calls);
     expect(core.setFailed).toHaveBeenCalledTimes(0);
     expect(core.error).toHaveBeenCalledTimes(0);
     expect(core.notice).toHaveBeenCalledTimes(1);
