@@ -154,7 +154,6 @@ describe('When availability passes if allow_warn_as_passed is true (expected 80,
 
     expect(core.setOutput).toHaveBeenCalledTimes(1);
     expect(core.getInput).toHaveBeenCalledTimes(3);
-    console.log(core.setFailed.mock.calls);
     expect(core.setFailed).toHaveBeenCalledTimes(0);
     expect(core.error).toHaveBeenCalledTimes(0);
     expect(core.notice).toHaveBeenCalledTimes(1);
