@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.10.0",
     "axios": "^0.24.0"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "@condor-labs/eslint-config": "1.2.0",
     "@condor-labs/matchbox": "1.4.0",
     "@condor-labs/prettier-config": "1.1.0",
+    "@vercel/ncc": "^0.34.0",
     "eslint": "7.23.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
